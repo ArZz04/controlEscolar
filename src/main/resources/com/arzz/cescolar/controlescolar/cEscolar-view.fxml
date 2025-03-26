@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.net.*?>
+
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arzz.cescolar.controlescolar.AppController">
+   <stylesheets>
+      <URL value="@styles/dashboard.css" />
+   </stylesheets>
+
+   <top>
+      <!-- Header Bar -->
+      <HBox styleClass="header-bar" prefHeight="80.0" prefWidth="1280.0" spacing="20.0">
+         <padding>
+            <Insets top="10" right="10" bottom="10" left="10" />
+         </padding>
+         <children>
+            <!-- Logo -->
+            <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logoAI.png" />
+               </image>
+            </ImageView>
+
+            <!-- Nombre del Proyecto -->
+            <Label text="SysArZz - Control Escolar" styleClass="header-title" />
+
+            <!-- Espacio flexible entre el título y los botones -->
+            <Region HBox.hgrow="ALWAYS"/>
+
+         </children>
+      </HBox>
+   </top>
+
+   <center>
+      <!-- Main Content Area -->
+      <StackPane>
+         <children>
+            <!-- Dashboard Content -->
+            <ScrollPane fitToWidth="true" styleClass="dashboard-content">
+               <content>
+                  <VBox spacing="20.0" styleClass="dashboard-container">
+                     <padding>
+                        <Insets top="20" right="20" bottom="20" left="20" />
+                     </padding>
+
+                     <!-- Dashboard Title -->
+                     <Label text="Dashboard" styleClass="section-title" />
+
+                     <!-- Dashboard Cards -->
+                     <HBox spacing="20.0">
+                        <!-- Alumnos Card -->
+                        <VBox styleClass="dashboard-card" onMouseClicked="#handleAlumnosAction">
+                           <HBox spacing="15.0" alignment="CENTER_LEFT">
+                              <StackPane styleClass="card-icon-container, alumnos-color">
+                                 <ImageView fitHeight="32.0" fitWidth="32.0">
+                                    <image>
+                                       <Image url="@images/icons/users.png" />
+                                    </image>
+                                 </ImageView>
+                              </StackPane>
+                              <VBox>
+                                 <Label text="Alumnos" styleClass="card-title" />
+                                 <Label text="256" styleClass="card-count" />
+                              </VBox>
+                           </HBox>
+                        </VBox>
+
+                        <!-- Maestros Card -->
+                        <VBox styleClass="dashboard-card" onMouseClicked="#handleMaestrosAction">
+                           <HBox spacing="15.0" alignment="CENTER_LEFT">
+                              <StackPane styleClass="card-icon-container, maestros-color">
+                                 <ImageView fitHeight="32.0" fitWidth="32.0">
+                                    <image>
+                                       <Image url="@images/icons/graduation-cap.png" />
+                                    </image>
+                                 </ImageView>
+                              </StackPane>
+                              <VBox>
+                                 <Label text="Maestros" styleClass="card-title" />
+                                 <Label text="32" styleClass="card-count" />
+                              </VBox>
+                           </HBox>
+                        </VBox>
+
+                        <!-- Materias Card -->
+                        <VBox styleClass="dashboard-card" onMouseClicked="#handleMateriasAction">
+                           <HBox spacing="15.0" alignment="CENTER_LEFT">
+                              <StackPane styleClass="card-icon-container, materias-color">
+                                 <ImageView fitHeight="32.0" fitWidth="32.0">
+                                    <image>
+                                       <Image url="@images/icons/book-open.png" />
+                                    </image>
+                                 </ImageView>
+                              </StackPane>
+                              <VBox>
+                                 <Label text="Materias" styleClass="card-title" />
+                                 <Label text="48" styleClass="card-count" />
+                              </VBox>
+                           </HBox>
+                        </VBox>
+                     </HBox>
+
+                     <!-- Recent Activity Section -->
+                     <VBox styleClass="activity-section">
+                        <Label text="Actividad Reciente" styleClass="section-title" />
+
+                        <VBox spacing="10.0" styleClass="activity-list">
+                           <!-- Activity Item 1 -->
+                           <HBox styleClass="activity-item" alignment="CENTER_LEFT" spacing="10.0">
+                              <StackPane styleClass="activity-icon-container, alumnos-color">
+                                 <ImageView fitHeight="20.0" fitWidth="20.0">
+                                    <image>
+                                       <Image url="@images/icons/users.png" />
+                                    </image>
+                                 </ImageView>
+                              </StackPane>
+                              <VBox>
+                                 <Label text="Nuevo alumno registrado: María González" styleClass="activity-text" />
+                                 <Label text="Hace 2 horas" styleClass="activity-time" />
+                              </VBox>
+                           </HBox>
+
+                           <!-- Activity Item 2 -->
+                           <HBox styleClass="activity-item" alignment="CENTER_LEFT" spacing="10.0">
+                              <StackPane styleClass="activity-icon-container, materias-color">
+                                 <ImageView fitHeight="20.0" fitWidth="20.0">
+                                    <image>
+                                       <Image url="@images/icons/book-open.png" />
+                                    </image>
+                                 </ImageView>
+                              </StackPane>
+                              <VBox>
+                                 <Label text="Calificaciones actualizadas para Matemáticas 101" styleClass="activity-text" />
+                                 <Label text="Hace 5 horas" styleClass="activity-time" />
+                              </VBox>
+                           </HBox>
+
+                           <!-- Activity Item 3 -->
+                           <HBox styleClass="activity-item" alignment="CENTER_LEFT" spacing="10.0">
+                              <StackPane styleClass="activity-icon-container, maestros-color">
+                                 <ImageView fitHeight="20.0" fitWidth="20.0">
+                                    <image>
+                                       <Image url="@images/icons/graduation-cap.png" />
+                                    </image>
+                                 </ImageView>
+                              </StackPane>
+                              <VBox>
+                                 <Label text="Profesor Luis Ramírez modificó horario" styleClass="activity-text" />
+                                 <Label text="Ayer" styleClass="activity-time" />
+                              </VBox>
+                           </HBox>
+
+                           <!-- Activity Item 4 -->
+                           <HBox styleClass="activity-item" alignment="CENTER_LEFT" spacing="10.0">
+                              <StackPane styleClass="activity-icon-container, materias-color">
+                                 <ImageView fitHeight="20.0" fitWidth="20.0">
+                                    <image>
+                                       <Image url="@images/icons/book-open.png" />
+                                    </image>
+                                 </ImageView>
+                              </StackPane>
+                              <VBox>
+                                 <Label text="Nueva materia agregada: Física Avanzada" styleClass="activity-text" />
+                                 <Label text="Hace 2 días" styleClass="activity-time" />
+                              </VBox>
+                           </HBox>
+                        </VBox>
+                     </VBox>
+                  </VBox>
+               </content>
+            </ScrollPane>
+
+            <!-- Side Panel -->
+            <AnchorPane fx:id="sidePanel" styleClass="side-panel" visible="false" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+               <!-- Side Panel Header -->
+               <HBox styleClass="side-panel-header" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <ImageView fx:id="sidePanelIcon" fitHeight="24.0" fitWidth="24.0" />
+                     <Label fx:id="sidePanelTitle" styleClass="side-panel-title" />
+                  </HBox>
+                  <Button fx:id="btnCloseSidePanel" styleClass="close-button" onAction="#handleCloseSidePanel">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0">
+                           <Image url="@images/icons/x.png"/>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </HBox>
+
+               <!-- Search and Add Section -->
+               <HBox styleClass="search-section" spacing="10.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="60.0">
+                  <HBox styleClass="search-container" HBox.hgrow="ALWAYS">
+                     <ImageView fitHeight="16.0" fitWidth="16.0">
+                        <image>
+                           <Image url="@images/icons/search.png" />
+                        </image>
+                     </ImageView>
+                     <TextField fx:id="searchField" promptText="Buscar..." styleClass="search-field" HBox.hgrow="ALWAYS" />
+                  </HBox>
+                  <Button fx:id="btnAddNew" text="Nuevo" styleClass="add-button">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0">
+                           <Image url="@images/icons/plus.png"/>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </HBox>
+
+               <!-- List View -->
+               <ListView fx:id="itemListView" styleClass="item-list-view" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="120.0" AnchorPane.bottomAnchor="0" />
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,84 @@
+ControlEscolar: schema
+    + tables
+        Groups_Table: table
+            + columns
+                GROUP_ID: int NN auto_increment = 7
+                GROUP_NAME: varchar(50) NN
+            + keys
+                #1: PK (GROUP_ID) (underlying index PRIMARY)
+        Student_Subject: table
+            + columns
+                STUDENT_SUBJECT_ID: int NN auto_increment = 1
+                STUDENT_ID: int
+                SUBJECT_ID: int
+                GROUP_ID: int
+            + indices
+                STUDENT_ID: index (STUDENT_ID) type btree
+                SUBJECT_ID: index (SUBJECT_ID) type btree
+                GROUP_ID: index (GROUP_ID) type btree
+            + keys
+                #1: PK (STUDENT_SUBJECT_ID) (underlying index PRIMARY)
+            + foreign-keys
+                Student_Subject_ibfk_1: foreign key (STUDENT_ID) -> Students (STUDENT_ID)
+                Student_Subject_ibfk_2: foreign key (SUBJECT_ID) -> Subjects (SUBJECT_ID)
+                Student_Subject_ibfk_3: foreign key (GROUP_ID) -> Groups_Table (GROUP_ID)
+        Students: table
+            + columns
+                STUDENT_ID: int NN auto_increment = 1
+                USER_ID: int
+                GROUP_ID: int
+            + indices
+                USER_ID: index (USER_ID) type btree
+                GROUP_ID: index (GROUP_ID) type btree
+            + keys
+                #1: PK (STUDENT_ID) (underlying index PRIMARY)
+            + foreign-keys
+                Students_ibfk_1: foreign key (USER_ID) -> User (USER_ID)
+                Students_ibfk_2: foreign key (GROUP_ID) -> Groups_Table (GROUP_ID)
+        Subjects: table
+            + columns
+                SUBJECT_ID: int NN auto_increment = 1
+                NAME: varchar(100) NN
+            + keys
+                #1: PK (SUBJECT_ID) (underlying index PRIMARY)
+        Teacher_Subject: table
+            + columns
+                TEACHER_SUBJECT_ID: int NN auto_increment = 1
+                TEACHER_ID: int
+                SUBJECT_ID: int
+                GROUP_ID: int
+            + indices
+                TEACHER_ID: index (TEACHER_ID) type btree
+                SUBJECT_ID: index (SUBJECT_ID) type btree
+                GROUP_ID: index (GROUP_ID) type btree
+            + keys
+                #1: PK (TEACHER_SUBJECT_ID) (underlying index PRIMARY)
+            + foreign-keys
+                Teacher_Subject_ibfk_1: foreign key (TEACHER_ID) -> Teachers (TEACHER_ID)
+                Teacher_Subject_ibfk_2: foreign key (SUBJECT_ID) -> Subjects (SUBJECT_ID)
+                Teacher_Subject_ibfk_3: foreign key (GROUP_ID) -> Groups_Table (GROUP_ID)
+        Teachers: table
+            + columns
+                TEACHER_ID: int NN auto_increment = 1
+                USER_ID: int
+                SUBJECT_ID: int
+            + indices
+                USER_ID: index (USER_ID) type btree
+                SUBJECT_ID: index (SUBJECT_ID) type btree
+            + keys
+                #1: PK (TEACHER_ID) (underlying index PRIMARY)
+            + foreign-keys
+                Teachers_ibfk_1: foreign key (USER_ID) -> User (USER_ID)
+                Teachers_ibfk_2: foreign key (SUBJECT_ID) -> Subjects (SUBJECT_ID)
+        User: table
+            + columns
+                USER_ID: int NN auto_increment = 1
+                FIRST_NAME: varchar(100) NN
+                LAST_NAME: varchar(100) NN
+                MIDDLE_NAME: varchar(100) NN
+                BIRTH_DATE: date NN
+                EMAIL: varchar(100) NN
+                PHONE: varchar(15)
+            + keys
+                #1: PK (USER_ID) (underlying index PRIMARY)
+                EMAIL: AK (EMAIL)

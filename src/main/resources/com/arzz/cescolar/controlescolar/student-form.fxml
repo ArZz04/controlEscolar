@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.net.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arzz.cescolar.controlescolar.wControllers.studentFController">
+    <stylesheets>
+        <URL value="@styles/dashboard.css" />
+        <URL value="@styles/forms.css" />
+    </stylesheets>
+
+    <top>
+        <HBox styleClass="form-header">
+            <Label text="Agregar Nuevo Alumno" styleClass="form-title" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="form-container">
+            <content>
+                <VBox spacing="20" styleClass="form-content">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20" />
+                    </padding>
+
+                    <!-- Personal Information Section -->
+                    <Label text="Información Personal" styleClass="section-subtitle" />
+
+                    <HBox spacing="15">
+                        <!-- Photo Upload -->
+                        <VBox alignment="CENTER" styleClass="photo-upload-container">
+                            <ImageView fx:id="studentPhotoView" fitHeight="120" fitWidth="120" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@images/profiles/mencho.png" />
+                                </image>
+                            </ImageView>
+                        <!-- <Button fx:id="btnUploadPhoto" text="Subir Foto" styleClass="upload-button" onAction="#handleUploadPhoto" /> -->
+                    </VBox>
+
+                    <!-- Basic Info -->
+                        <VBox spacing="15" HBox.hgrow="ALWAYS">
+                            <HBox spacing="15">
+                                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                    <Label text="Nombre(s)" />
+                                    <TextField fx:id="firstNameField" promptText="Nombre(s)" />
+                                </VBox>
+
+                                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                    <Label text="Apellidos" />
+                                    <TextField fx:id="lastNameField" promptText="Apellidos" />
+                                </VBox>
+                            </HBox>
+
+                            <HBox spacing="15">
+                                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                    <Label text="Fecha de Nacimiento" />
+                                    <DatePicker fx:id="birthDatePicker" promptText="DD/MM/AAAA" />
+                                </VBox>
+
+                                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                    <Label text="Género" />
+                                    <ComboBox fx:id="genderComboBox" promptText="Seleccionar" prefWidth="150" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Academic Information Section -->
+                    <Label text="Información Académica" styleClass="section-subtitle" />
+
+                    <HBox spacing="15">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Matrícula" />
+                            <TextField fx:id="matriculaField" promptText="Ej. A12345" />
+                        </VBox>
+
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Semestre" />
+                            <ComboBox fx:id="semesterComboBox" promptText="Seleccionar" prefWidth="150" />
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="15">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Carrera/Programa" />
+                            <ComboBox fx:id="programComboBox" promptText="Seleccionar" prefWidth="150" />
+                        </VBox>
+
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Grupo" />
+                            <TextField fx:id="groupField" promptText="Ej. A" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- Contact Information Section -->
+                    <Label text="Información de Contacto" styleClass="section-subtitle" />
+
+                    <HBox spacing="15">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Correo Electrónico" />
+                            <TextField fx:id="emailField" promptText="ejemplo@correo.com" />
+                        </VBox>
+
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Teléfono" />
+                            <TextField fx:id="phoneField" promptText="(123) 456-7890" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- Address Section -->
+                    <Label text="Dirección" styleClass="section-subtitle" />
+
+                    <VBox spacing="15">
+
+                        <HBox spacing="15">
+
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Código Postal" />
+                                <TextField fx:id="zipCodeField" promptText="Código Postal" />
+                            </VBox>
+                        </HBox>
+
+                        <HBox spacing="15">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Ciudad" />
+                                <TextField fx:id="cityField" promptText="Ciudad" />
+                            </VBox>
+
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="Estado" />
+                                <ComboBox fx:id="stateComboBox" promptText="Seleccionar" prefWidth="150" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox styleClass="form-actions">
+            <Button fx:id="btnCancel" text="Cancelar" styleClass="cancel-button" onAction="#handleCancel" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnSave" text="Guardar" styleClass="save-button" onAction="#handleSave" />
+        </HBox>
+    </bottom>
+</BorderPane>

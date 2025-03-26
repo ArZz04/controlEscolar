@@ -1,0 +1,104 @@
+/* Form Styles */
+.form-header {
+    -fx-background-color: linear-gradient(to right, #2c3e50, #4ca1af);
+    -fx-padding: 15px;
+    -fx-alignment: center-left;
+}
+
+.form-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.form-container {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.form-container .viewport {
+    -fx-background-color: transparent;
+}
+
+.form-content {
+    -fx-background-color: white;
+}
+
+.section-subtitle {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 5px 0;
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 0 0 1px 0;
+}
+
+/* Photo Upload */
+.photo-upload-container {
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-min-width: 140px;
+    -fx-max-width: 140px;
+    -fx-spacing: 10px;
+}
+
+.upload-button {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #2c3e50;
+    -fx-cursor: hand;
+}
+
+.upload-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+/* Form Controls */
+.text-field, .text-area, .date-picker, .combo-box, .spinner {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+}
+
+.text-field:focused, .text-area:focused, .date-picker:focused, .combo-box:focused, .spinner:focused {
+    -fx-border-color: #4ca1af;
+}
+
+/* Form Actions */
+.form-actions {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.cancel-button {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #2c3e50;
+    -fx-cursor: hand;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.save-button {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.save-button:hover {
+    -fx-background-color: #1a2530;
+}
+
+.add-button {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.add-button:hover {
+    -fx-background-color: #1a2530;
+}
