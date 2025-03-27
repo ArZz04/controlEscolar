@@ -34,14 +34,18 @@ import java.util.List;
 import java.util.Random;
 
 public class AppController {
-    @FXML private Button btnAlumnos;
-    @FXML private Button btnMaestros;
-    @FXML private Button btnMaterias;
     @FXML private AnchorPane sidePanel;
     @FXML private Label sidePanelTitle;
     @FXML private ImageView sidePanelIcon;
     @FXML private TextField searchField;
     @FXML private ListView<String> itemListView;
+
+    @FXML
+    private Label alumnosCountLabel;  // Label donde se muestra el número de alumnos
+    @FXML
+    private Label maestrosCountLabel;  // Label donde se muestra el número de maestros
+    @FXML
+    private Label materiasCountLabel;  // Label donde se muestra el número de materias
 
     @FXML
     private ComboBox<String> userComboBox;
@@ -79,6 +83,7 @@ public class AppController {
         });
 
         loadAlumnosData();
+        updateDashboardCounts();
     }
 
     @FXML
@@ -128,7 +133,6 @@ public class AppController {
     }
 
 
-
     private void toggleSidePanel(String title) {
         if (sidePanel.isVisible() && title.equals(currentPanel)) {
             sidePanel.setVisible(false);
@@ -142,7 +146,6 @@ public class AppController {
 
     private void loadAlumnosData() {
         ObservableList<String> items = FXCollections.observableArrayList();
-
 
         // Crear instancia de StudentsDAO para obtener los estudiantes
         StudentDAO studentsDAO = new StudentDAO();
@@ -353,5 +356,42 @@ public class AppController {
         }
 
         itemListView.setItems(filteredItems);
+    }
+
+    // Método para obtener el número de alumnos
+    private int getAlumnosCount() {
+        // Obtener los estudiantes desde el DAO
+        StudentDAO studentsDAO = new StudentDAO();
+        List<Student> students = studentsDAO.getAllStudents();
+        return students.size();  // Retornar la cantidad de estudiantes
+    }
+
+    // Método para obtener el número de maestros
+    private int getMaestrosCount() {
+        // Obtener los maestros desde el DAO
+        TeacherDAO teachersDAO = new TeacherDAO();
+        List<Teacher> teachers = teachersDAO.getAllTeachers();
+        return teachers.size();  // Retornar la cantidad de maestros
+    }
+
+    // Método para obtener el número de materias
+    private int getMateriasCount() {
+        // Obtener las materias desde el DAO
+        SubjectDAO subjectDAO = new SubjectDAO();
+        List<Subject> subjects = subjectDAO.getAllSubjects();
+        return subjects.size();  // Retornar la cantidad de materias
+    }
+
+    // Método para actualizar los conteos en la interfaz de usuario
+    private void updateDashboardCounts() {
+        // Obtener los conteos de cada categoría
+        int alumnosCount = getAlumnosCount();
+        int maestrosCount = getMaestrosCount();
+        int materiasCount = getMateriasCount();
+
+        // Actualizar las etiquetas en la UI
+        alumnosCountLabel.setText(String.valueOf(alumnosCount));
+        maestrosCountLabel.setText(String.valueOf(maestrosCount));
+        materiasCountLabel.setText(String.valueOf(materiasCount));
     }
 }
