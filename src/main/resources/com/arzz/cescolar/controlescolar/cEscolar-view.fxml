@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
 <?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arzz.cescolar.controlescolar.AppController">
    <stylesheets>
       <URL value="@styles/dashboard.css" />
@@ -15,9 +13,9 @@
 
    <top>
       <!-- Header Bar -->
-      <HBox styleClass="header-bar" prefHeight="80.0" prefWidth="1280.0" spacing="20.0">
+      <HBox prefHeight="80.0" prefWidth="1280.0" spacing="20.0" styleClass="header-bar">
          <padding>
-            <Insets top="10" right="10" bottom="10" left="10" />
+            <Insets bottom="10" left="10" right="10" top="10" />
          </padding>
          <children>
             <!-- Logo -->
@@ -28,10 +26,10 @@
             </ImageView>
 
             <!-- Nombre del Proyecto -->
-            <Label text="SysArZz - Control Escolar" styleClass="header-title" />
+            <Label styleClass="header-title" text="SysArZz - Control Escolar" />
 
             <!-- Espacio flexible entre el título y los botones -->
-            <Region HBox.hgrow="ALWAYS"/>
+            <Region HBox.hgrow="ALWAYS" />
 
          </children>
       </HBox>
@@ -46,17 +44,17 @@
                <content>
                   <VBox spacing="20.0" styleClass="dashboard-container">
                      <padding>
-                        <Insets top="20" right="20" bottom="20" left="20" />
+                        <Insets bottom="20" left="20" right="20" top="20" />
                      </padding>
 
                      <!-- Dashboard Title -->
-                     <Label text="Dashboard" styleClass="section-title" />
+                     <Label styleClass="section-title" text="Dashboard" />
 
                      <!-- Dashboard Cards -->
                      <HBox spacing="20.0">
                         <!-- Alumnos Card -->
-                        <VBox styleClass="dashboard-card" onMouseClicked="#handleAlumnosAction">
-                           <HBox spacing="15.0" alignment="CENTER_LEFT">
+                        <VBox onMouseClicked="#handleAlumnosAction" styleClass="dashboard-card">
+                           <HBox alignment="CENTER_LEFT" spacing="15.0">
                               <StackPane styleClass="card-icon-container, alumnos-color">
                                  <ImageView fitHeight="32.0" fitWidth="32.0">
                                     <image>
@@ -65,15 +63,15 @@
                                  </ImageView>
                               </StackPane>
                               <VBox>
-                                 <Label text="Alumnos" styleClass="card-title" />
-                                 <Label fx:id="alumnosCountLabel" text="0" styleClass="card-count" />
+                                 <Label styleClass="card-title" text="Alumnos" />
+                                 <Label fx:id="alumnosCountLabel" styleClass="card-count" text="0" />
                               </VBox>
                            </HBox>
                         </VBox>
 
                         <!-- Maestros Card -->
-                        <VBox styleClass="dashboard-card" onMouseClicked="#handleMaestrosAction">
-                           <HBox spacing="15.0" alignment="CENTER_LEFT">
+                        <VBox onMouseClicked="#handleMaestrosAction" styleClass="dashboard-card">
+                           <HBox alignment="CENTER_LEFT" spacing="15.0">
                               <StackPane styleClass="card-icon-container, maestros-color">
                                  <ImageView fitHeight="32.0" fitWidth="32.0">
                                     <image>
@@ -82,15 +80,15 @@
                                  </ImageView>
                               </StackPane>
                               <VBox>
-                                 <Label text="Maestros" styleClass="card-title" />
-                                 <Label fx:id="maestrosCountLabel" text="0" styleClass="card-count" />
+                                 <Label styleClass="card-title" text="Maestros" />
+                                 <Label fx:id="maestrosCountLabel" styleClass="card-count" text="0" />
                               </VBox>
                            </HBox>
                         </VBox>
 
                         <!-- Materias Card -->
-                        <VBox styleClass="dashboard-card" onMouseClicked="#handleMateriasAction">
-                           <HBox spacing="15.0" alignment="CENTER_LEFT">
+                        <VBox onMouseClicked="#handleMateriasAction" styleClass="dashboard-card">
+                           <HBox alignment="CENTER_LEFT" spacing="15.0">
                               <StackPane styleClass="card-icon-container, materias-color">
                                  <ImageView fitHeight="32.0" fitWidth="32.0">
                                     <image>
@@ -99,8 +97,8 @@
                                  </ImageView>
                               </StackPane>
                               <VBox>
-                                 <Label text="Materias" styleClass="card-title" />
-                                 <Label fx:id="materiasCountLabel" text="0" styleClass="card-count" />
+                                 <Label styleClass="card-title" text="Materias" />
+                                 <Label fx:id="materiasCountLabel" styleClass="card-count" text="0" />
                               </VBox>
                            </HBox>
                         </VBox>
@@ -108,43 +106,57 @@
 
                      <!-- Mostrar materias asignadas al usuario seleccionado -->
                      <VBox styleClass="assigned-materias-section">
-                        <Label text="Materias Asignadas" styleClass="section-title" />
-                        <VBox fx:id="materiasList" styleClass="materias-list">
-                           <!-- Aquí se mostrarán las materias asignadas al usuario seleccionado -->
-                        </VBox>
+                        <Label styleClass="section-title" text="Materias Asignadas" />
                      </VBox>
 
                      <!-- ComboBox y Botón para seleccionar usuario y asignar materias -->
-                     <HBox styleClass="user-action-section" spacing="20.0" alignment="CENTER_LEFT">
+                     <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="user-action-section">
                         <!-- ComboBox para seleccionar alumno -->
-                        <ComboBox fx:id="userComboBox" promptText="Selecciona un Alumno" styleClass="combo-box" />
+                        <VBox fx:id="studenBox" styleClass="combo-box-container">
+                           <HBox spacing="10">
+                              <ComboBox fx:id="studentComboBox" maxWidth="200.0" promptText="Selecciona un Alumno" styleClass="combo-box" />
+                              <Button onAction="#handleAssignMaterias" styleClass="assign-button" text="Guardar" />
 
-                        <!-- Botón para asignar materias -->
-                        <Button text="Asignar Materias" styleClass="assign-button" onAction="#handleAssignMaterias" />
+
+                           </HBox>
+                           <Label fx:id="studentNameLabel" styleClass="student-name" />
+                           <VBox fx:id="subjectsContainerStudent" styleClass="subjects-container" spacing="5"/>
+                        </VBox>
+
+                        <Separator fx:id="separator" orientation="VERTICAL" />
+
+                        <VBox fx:id="teacherBox" styleClass="combo-box-container">
+                           <HBox spacing="10">
+                              <ComboBox fx:id="teacherComboBox" maxWidth="200.0" promptText="Selecciona un Maestro" styleClass="combo-box" />
+                              <Button onAction="#handleAssignMaterias" styleClass="assign-button" text="Guardar" />
+                           </HBox>
+                           <Label fx:id="teacherNameLabel" styleClass="student-name" />
+                           <VBox fx:id="subjectsContainerTeacher" styleClass="subjects-container" spacing="5"/>
+                        </VBox>
                      </HBox>
                   </VBox>
                </content>
             </ScrollPane>
 
             <!-- Side Panel -->
-            <AnchorPane fx:id="sidePanel" styleClass="side-panel" visible="false" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+            <AnchorPane fx:id="sidePanel" styleClass="side-panel" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                <!-- Side Panel Header -->
                <HBox styleClass="side-panel-header" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                   <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
                      <ImageView fx:id="sidePanelIcon" fitHeight="24.0" fitWidth="24.0" />
                      <Label fx:id="sidePanelTitle" styleClass="side-panel-title" />
                   </HBox>
-                  <Button fx:id="btnCloseSidePanel" styleClass="close-button" onAction="#handleCloseSidePanel">
+                  <Button fx:id="btnCloseSidePanel" onAction="#handleCloseSidePanel" styleClass="close-button">
                      <graphic>
                         <ImageView fitHeight="16.0" fitWidth="16.0">
-                           <Image url="@images/icons/x.png"/>
+                           <Image url="@images/icons/x.png" />
                         </ImageView>
                      </graphic>
                   </Button>
                </HBox>
 
                <!-- Search and Add Section -->
-               <HBox styleClass="search-section" spacing="10.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="60.0">
+               <HBox spacing="10.0" styleClass="search-section" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="60.0">
                   <HBox styleClass="search-container" HBox.hgrow="ALWAYS">
                      <ImageView fitHeight="16.0" fitWidth="16.0">
                         <image>
@@ -153,17 +165,17 @@
                      </ImageView>
                      <TextField fx:id="searchField" promptText="Buscar..." styleClass="search-field" HBox.hgrow="ALWAYS" />
                   </HBox>
-                  <Button fx:id="btnAddNew" text="Nuevo" styleClass="add-button">
+                  <Button fx:id="btnAddNew" styleClass="add-button" text="Nuevo">
                      <graphic>
                         <ImageView fitHeight="16.0" fitWidth="16.0">
-                           <Image url="@images/icons/plus.png"/>
+                           <Image url="@images/icons/plus.png" />
                         </ImageView>
                      </graphic>
                   </Button>
                </HBox>
 
                <!-- List View -->
-               <ListView fx:id="itemListView" styleClass="item-list-view" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="120.0" AnchorPane.bottomAnchor="0" />
+               <ListView fx:id="itemListView" styleClass="item-list-view" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="120.0" />
             </AnchorPane>
          </children>
       </StackPane>

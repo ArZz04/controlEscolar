@@ -30,13 +30,13 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class AppController {
     @FXML private AnchorPane sidePanel;
     @FXML private Label sidePanelTitle;
-    @FXML private ImageView sidePanelIcon;
     @FXML private TextField searchField;
     @FXML private ListView<String> itemListView;
 
@@ -47,12 +47,15 @@ public class AppController {
     @FXML
     private Label materiasCountLabel;  // Label donde se muestra el número de materias
 
-    @FXML
-    private ComboBox<String> userComboBox;
+    @FXML private ComboBox<String> studentComboBox;
+    @FXML private ComboBox<String> teacherComboBox;
+    // Lista de CheckBoxes para poder acceder a ellas luego
+    private List<CheckBox> subjectCheckBoxes = new ArrayList<>();
 
     @FXML
-    private VBox materiasList;
-
+    private Label teacherNameLabel;
+    @FXML private VBox subjectsContainerTeacher;
+    @FXML private VBox subjectsContainerStudent;
 
     private String currentPanel = null;
 
@@ -83,18 +86,20 @@ public class AppController {
         });
 
         loadAlumnosData();
+        loadMaestrosData();
+        loadSubjects(); // Llenar la lista de materias al iniciar la pantalla
         updateDashboardCounts();
     }
 
     @FXML
     private void handleAssignMaterias() {
-        String selectedUser = userComboBox.getValue();
+        String selectedUser = studentComboBox.getValue();
 
         if (selectedUser != null) {
             // Aquí puedes agregar la lógica para asignar materias al usuario seleccionado
             // Por ejemplo, agregamos una nueva materia a la lista de materias asignadas.
             Label newMateriaLabel = new Label("Nueva Materia asignada a " + selectedUser);
-            materiasList.getChildren().add(newMateriaLabel);
+            studentComboBox.getChildrenUnmodifiable().add(newMateriaLabel);
         } else {
             // Si no se selecciona un usuario, mostrar un mensaje
             System.out.println("Por favor, selecciona un usuario.");
@@ -165,7 +170,7 @@ public class AppController {
 
         // Asignar los items al ListView
         itemListView.setItems(items);
-        userComboBox.setItems(items);
+        studentComboBox.setItems(items);
     }
 
     private void loadMaestrosData() {
@@ -193,6 +198,7 @@ public class AppController {
 
         // Asignar la lista observable a la ListView
         itemListView.setItems(items);
+        teacherComboBox.setItems(items);
     }
 
     private void loadMateriasData() {
@@ -220,6 +226,26 @@ public class AppController {
 
         itemListView.setItems(items); // Establecer los datos en el ListView
     }
+
+    private void loadSubjects() {
+        SubjectDAO subjectDAO = new SubjectDAO(); // Instancia del DAO
+        // Simulación de materias desde la base de datos
+        List<Subject> subjects = subjectDAO.getAllSubjects(); // Obtener materias desde la BD
+
+        // Limpiar cualquier CheckBox previo
+        subjectsContainerTeacher.getChildren().clear();
+        subjectsContainerStudent.getChildren().clear();
+        subjectCheckBoxes.clear();
+
+        // Agregar CheckBoxes para cada materia
+        for (Subject subject : subjects) {
+            CheckBox checkBox = new CheckBox(subject.getName());
+            subjectsContainerTeacher.getChildren().add(checkBox);
+            subjectsContainerStudent.getChildren().add(new CheckBox(subject.getName()));
+            subjectCheckBoxes.add(checkBox); // Guardar referencia por si se necesita después
+        }
+    }
+
 
     private void openStudentFWindow() {
         try {
