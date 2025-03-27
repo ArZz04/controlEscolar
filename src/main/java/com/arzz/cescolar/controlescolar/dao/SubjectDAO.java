@@ -15,15 +15,15 @@ public class SubjectDAO {
     // Obtener todas las materias
     public List<Subject> getAllSubjects() {
         List<Subject> subjects = new ArrayList<>();
-        String query = "SELECT * FROM subjects";
+        String query = "SELECT * FROM Subjects";
 
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                int subjectId = resultSet.getInt("id_subject");
-                String name = resultSet.getString("subject_name");
+                int subjectId = resultSet.getInt("SUBJECT_ID");
+                String name = resultSet.getString("NAME");
 
                 Subject subject = new Subject(subjectId, name);
                 subjects.add(subject);
@@ -37,7 +37,7 @@ public class SubjectDAO {
 
     // Insertar una nueva materia
     public void addSubject(Subject subject) {
-        String query = "INSERT INTO subjects (subject_name) VALUES (?)";
+        String query = "INSERT INTO Subjects (NAME) VALUES (?)";
 
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -52,7 +52,7 @@ public class SubjectDAO {
 
     // Actualizar una materia
     public void updateSubject(Subject subject) {
-        String query = "UPDATE subjects SET subject_name = ? WHERE id_subject = ?";
+        String query = "UPDATE Subjects SET NAME = ? WHERE SUBJECT_ID = ?";
 
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -68,7 +68,7 @@ public class SubjectDAO {
 
     // Eliminar una materia
     public void deleteSubject(int subjectId) {
-        String query = "DELETE FROM subjects WHERE id_subject = ?";
+        String query = "DELETE FROM Subjects WHERE SUBJECT_ID = ?";
 
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {

@@ -3,11 +3,13 @@ package com.arzz.cescolar.controlescolar.schemas;
 public class Student extends User {
     private int studentId;
     private int groupId;
+    private int grade;
 
     // Constructor
-    public Student(int userId, String firstName, String lastName, String middleName, String birthDate, String email, String phone, int studentId, int groupId) {
-        super(userId, firstName, lastName, middleName, birthDate, email, phone);
+    public Student( String firstName, String lastName, String birthDate, String gender, String email, String phone, int studentId, int grade, int groupId) {
+        super( firstName, lastName, birthDate, gender, email, phone);
         this.studentId = studentId;
+        this.grade = grade;
         this.groupId = groupId;
     }
 
@@ -18,6 +20,14 @@ public class Student extends User {
 
     public void setStudentId(int studentId) {
         this.studentId = studentId;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 
     public int getGroupId() {

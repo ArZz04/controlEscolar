@@ -15,15 +15,15 @@ public class GroupDAO {
     // Obtener todos los grupos
     public List<Group> getAllGroups() {
         List<Group> groups = new ArrayList<>();
-        String query = "SELECT * FROM groups";
+        String query = "SELECT * FROM Groups_Table";
 
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                int groupId = resultSet.getInt("id_group");
-                String groupName = resultSet.getString("group_name");
+                int groupId = resultSet.getInt("GROUP_ID");
+                String groupName = resultSet.getString("GROUP_NAME");
 
                 Group group = new Group(groupId, groupName);
                 groups.add(group);

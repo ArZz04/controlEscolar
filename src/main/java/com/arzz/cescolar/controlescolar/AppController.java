@@ -1,5 +1,11 @@
 package com.arzz.cescolar.controlescolar;
 
+import com.arzz.cescolar.controlescolar.dao.StudentDAO;
+import com.arzz.cescolar.controlescolar.dao.SubjectDAO;
+import com.arzz.cescolar.controlescolar.dao.TeacherDAO;
+import com.arzz.cescolar.controlescolar.schemas.Student;
+import com.arzz.cescolar.controlescolar.schemas.Subject;
+import com.arzz.cescolar.controlescolar.schemas.Teacher;
 import com.arzz.cescolar.controlescolar.wControllers.studentFController;
 import com.arzz.cescolar.controlescolar.wControllers.subjectFController;
 import com.arzz.cescolar.controlescolar.wControllers.teacherFController;
@@ -9,14 +15,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Path;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,6 +30,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Random;
 
 public class AppController {
@@ -38,6 +43,13 @@ public class AppController {
     @FXML private TextField searchField;
     @FXML private ListView<String> itemListView;
 
+    @FXML
+    private ComboBox<String> userComboBox;
+
+    @FXML
+    private VBox materiasList;
+
+
     private String currentPanel = null;
 
     @FXML
@@ -48,6 +60,7 @@ public class AppController {
 
     @FXML
     public void initialize() {
+
         // Initialize components
         sidePanel.setVisible(false);
 
@@ -64,6 +77,23 @@ public class AppController {
                 case "MATERIAS" -> openSubjectFWindow();
             }
         });
+
+        loadAlumnosData();
+    }
+
+    @FXML
+    private void handleAssignMaterias() {
+        String selectedUser = userComboBox.getValue();
+
+        if (selectedUser != null) {
+            // Aquí puedes agregar la lógica para asignar materias al usuario seleccionado
+            // Por ejemplo, agregamos una nueva materia a la lista de materias asignadas.
+            Label newMateriaLabel = new Label("Nueva Materia asignada a " + selectedUser);
+            materiasList.getChildren().add(newMateriaLabel);
+        } else {
+            // Si no se selecciona un usuario, mostrar un mensaje
+            System.out.println("Por favor, selecciona un usuario.");
+        }
     }
 
 
@@ -111,36 +141,81 @@ public class AppController {
     }
 
     private void loadAlumnosData() {
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Ana García - Matrícula: A12345 • 3er Semestre",
-                "Carlos López - Matrícula: A12346 • 2do Semestre",
-                "María Rodríguez - Matrícula: A12347 • 1er Semestre",
-                "Juan Pérez - Matrícula: A12348 • 4to Semestre",
-                "Sofía Martínez - Matrícula: A12349 • 2do Semestre"
-        );
+        ObservableList<String> items = FXCollections.observableArrayList();
+
+
+        // Crear instancia de StudentsDAO para obtener los estudiantes
+        StudentDAO studentsDAO = new StudentDAO();
+        List<Student> students = studentsDAO.getAllStudents(); // Obtener estudiantes desde el DAO
+
+        if (students.isEmpty()) {
+            items.add("No hay alumnos disponibles.");  // Mostrar mensaje si no hay alumnos
+        } else {
+            for (Student student : students) {
+                // Formato de cada alumno: "Nombre Apellido - Matrícula: [STUDENT_ID] • [GRADE] Semestre"
+                String studentData = student.getFirstName() + " " + student.getLastName() +
+                        " - ID: " + student.getStudentId() +
+                        " • " + student.getGrade() + "er Semestre";
+                items.add(studentData);
+            }
+        }
+
+        // Asignar los items al ListView
         itemListView.setItems(items);
+        userComboBox.setItems(items);
     }
 
     private void loadMaestrosData() {
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Dr. Roberto Sánchez - Departamento: Matemáticas • Tiempo Completo",
-                "Mtra. Laura Jiménez - Departamento: Literatura • Medio Tiempo",
-                "Ing. Miguel Ángel Torres - Departamento: Ingeniería • Tiempo Completo",
-                "Dra. Patricia Vega - Departamento: Ciencias • Tiempo Completo"
-        );
+        // Obtener la lista de maestros desde el DAO
+        TeacherDAO teacherDAO = new TeacherDAO();
+        List<Teacher> teachers = teacherDAO.getAllTeachers();  // Obtiene todos los maestros desde la base de datos
+
+        // Crear la lista observable para la ListView
+        ObservableList<String> items = FXCollections.observableArrayList();
+
+        if (teachers.isEmpty()) {
+            items.add("No hay maestros disponibles.");  // Mostrar mensaje si no hay maestros
+        } else {
+            // Iterar sobre la lista de maestros y agregar las cadenas formateadas a la lista observable
+            for (Teacher teacher : teachers) {
+                String teacherInfo = String.format("%s %s - Departamento: %s • %s",
+                        teacher.getFirstName(),
+                        teacher.getLastName(),
+                        teacher.getSubjectName(),  // Ahora tienes el nombre del subject disponible
+                        teacher.getEmail());
+
+                items.add(teacherInfo);  // Agregar a la lista observable
+            }
+        }
+
+        // Asignar la lista observable a la ListView
         itemListView.setItems(items);
     }
 
     private void loadMateriasData() {
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Matemáticas 101 - Créditos: 8 • Obligatoria",
-                "Literatura Contemporánea - Créditos: 6 • Optativa",
-                "Física Básica - Créditos: 8 • Obligatoria",
-                "Programación Avanzada - Créditos: 10 • Obligatoria",
-                "Historia del Arte - Créditos: 4 • Optativa",
-                "Química Orgánica - Créditos: 8 • Obligatoria"
-        );
-        itemListView.setItems(items);
+        SubjectDAO subjectDAO = new SubjectDAO(); // Instancia del DAO
+        ObservableList<String> items = FXCollections.observableArrayList();
+
+        try {
+            List<Subject> subjects = subjectDAO.getAllSubjects(); // Obtener materias desde la BD
+
+            if (subjects.isEmpty()) {
+                items.add("No hay materias disponibles.");
+            } else {
+                for (Subject subject : subjects) {
+                    // Formato personalizado para cada materia
+                    String formattedSubject = subject.getName() + " - Créditos: 5 • Obligatoria"; // Ajusta según tu BD
+                    items.add(formattedSubject);
+                }
+            }
+        } catch (Exception e) {
+            // Si ocurre un error (ej. no hay conexión), mostrar un mensaje en la lista
+            items.add("⚠ Error al conectar con la base de datos.");
+            System.err.println("Error al obtener materias: " + e.getMessage()); // Para depuración
+            e.printStackTrace();
+        }
+
+        itemListView.setItems(items); // Establecer los datos en el ListView
     }
 
     private void openStudentFWindow() {

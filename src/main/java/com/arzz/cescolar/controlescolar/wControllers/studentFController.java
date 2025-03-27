@@ -1,13 +1,20 @@
 package com.arzz.cescolar.controlescolar.wControllers;
 
+import com.arzz.cescolar.controlescolar.dao.GroupDAO;
+import com.arzz.cescolar.controlescolar.dao.StudentDAO;
+import com.arzz.cescolar.controlescolar.dao.SubjectDAO;
+import com.arzz.cescolar.controlescolar.schemas.Group;
+import com.arzz.cescolar.controlescolar.schemas.Student;
+import com.arzz.cescolar.controlescolar.schemas.Subject;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.File;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class studentFController {
 
@@ -15,21 +22,11 @@ public class studentFController {
     @FXML private TextField lastNameField;
     @FXML private DatePicker birthDatePicker;
     @FXML private ComboBox<String> genderComboBox;
-    @FXML private TextField matriculaField;
     @FXML private ComboBox<String> semesterComboBox;
-    @FXML private ComboBox<String> programComboBox;
-    @FXML private TextField groupField;
+    @FXML private ComboBox<String > groupsComboBox;
     @FXML private TextField emailField;
     @FXML private TextField phoneField;
-    @FXML private TextField streetField;
-    @FXML private TextField neighborhoodField;
-    @FXML private TextField zipCodeField;
-    @FXML private TextField cityField;
-    @FXML private ComboBox<String> stateComboBox;
-    @FXML private TextArea notesTextArea;
-    @FXML private ImageView studentPhotoView;
 
-    private File selectedPhotoFile;
     private Stage stage;
 
     public void setStage(Stage stage) {
@@ -39,64 +36,109 @@ public class studentFController {
     @FXML
     public void initialize() {
         // Initialize ComboBox values
-        genderComboBox.getItems().addAll("Masculino", "Femenino", "Otro", "Prefiero no decir");
+        genderComboBox.getItems().addAll("Male", "Female", "Other", "Not specified");
 
-        semesterComboBox.getItems().addAll("1er Semestre", "2do Semestre", "3er Semestre",
-                "4to Semestre", "5to Semestre", "6to Semestre",
-                "7mo Semestre", "8vo Semestre", "9no Semestre");
+        semesterComboBox.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
 
-        programComboBox.getItems().addAll("Ingeniería en Sistemas", "Ingeniería Civil",
-                "Administración de Empresas", "Contaduría",
-                "Medicina", "Derecho", "Psicología");
-
-        stateComboBox.getItems().addAll("Aguascalientes", "Baja California", "Baja California Sur",
-                "Campeche", "Chiapas", "Chihuahua", "Coahuila",
-                "Colima", "Durango", "Estado de México", "Guanajuato",
-                "Guerrero", "Hidalgo", "Jalisco", "Michoacán",
-                "Morelos", "Nayarit", "Nuevo León", "Oaxaca",
-                "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí",
-                "Sinaloa", "Sonora",  "Quintana Roo", "San Luis Potosí",
-                "Sinaloa", "Sonora", "Tabasco", "Tamaulipas",
-                "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas");
+        loadGroupsToComboBox();
 
         // Set default values
         birthDatePicker.setValue(LocalDate.now().minusYears(18));
     }
 
-    @FXML
-    private void handleUploadPhoto() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Seleccionar Foto");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
-        );
+    private void loadGroupsToComboBox() {
+        GroupDAO groupDAO = new GroupDAO(); // Instancia del DAO
+        ObservableList<String> groupNames = FXCollections.observableArrayList();
 
-        selectedPhotoFile = fileChooser.showOpenDialog(stage);
-        if (selectedPhotoFile != null) {
-            Image image = new Image(selectedPhotoFile.toURI().toString());
-            studentPhotoView.setImage(image);
+        try {
+            List<Group> groups = groupDAO.getAllGroups(); // Obtener grupos desde la BD
+
+            if (groups.isEmpty()) {
+                groupNames.add("No hay grupos disponibles");
+            } else {
+                for (Group group : groups) { // Recorrer la lista de grupos
+                    groupNames.add(group.getGroupName()); // Usar getGroupName() para obtener el nombre del grupo
+                }
+            }
+        } catch (Exception e) {
+            groupNames.add("⚠ Error al cargar grupos");
+            System.err.println("Error al obtener grupos: " + e.getMessage());
+            e.printStackTrace();
         }
+
+        groupsComboBox.setItems(groupNames); // Asignar los datos al ComboBox
     }
 
     @FXML
     private void handleSave() {
-        // Validate required fields
-        if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() ||
-                matriculaField.getText().isEmpty()) {
-            showAlert("Error", "Campos requeridos",
-                    "Por favor complete todos los campos obligatorios.");
+        // Validar campos obligatorios
+        if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty()) {
+            showAlert("Error", "Campos requeridos", "Por favor complete todos los campos obligatorios (Nombre y Apellido).");
             return;
         }
 
-        // Here you would save the student data to your database
-        // For demonstration, we'll just show a success message
-        showAlert("Éxito", "Alumno guardado",
-                "El alumno ha sido guardado exitosamente.");
+        if (semesterComboBox.getSelectionModel().isEmpty() || groupsComboBox.getSelectionModel().isEmpty()) {
+            showAlert("Error", "Campos requeridos", "Por favor complete todos los campos obligatorios (Semestre y Grupo).");
+            return;
+        }
 
-        // Close the form
+        if (emailField.getText().isEmpty() || phoneField.getText().isEmpty()) {
+            showAlert("Error", "Campos requeridos", "Por favor complete todos los campos obligatorios (Correo y Teléfono).");
+            return;
+        }
+
+        // Obtener el género
+        String gender = genderComboBox.getSelectionModel().getSelectedItem();
+        if (gender == null) {
+            showAlert("Error", "Género no seleccionado", "Por favor seleccione un género.");
+            return;
+        }
+
+        // Verificar la fecha de nacimiento
+        if (birthDatePicker.getValue() == null) {
+            showAlert("Error", "Fecha no seleccionada", "Por favor seleccione una fecha de nacimiento.");
+            return;
+        }
+
+        // Intentar parsear el semestre
+        Integer semester = null;
+        try {
+            semester = Integer.parseInt(semesterComboBox.getValue());
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Semestre no válido", "Por favor seleccione un semestre válido.");
+            return;
+        }
+
+        // Crear el objeto Student con los datos del formulario
+        Student student = new Student(
+                firstNameField.getText(),
+                lastNameField.getText(),
+                birthDatePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),  // Ajuste aquí
+                gender,
+                emailField.getText(),
+                phoneField.getText(),
+                0,  // Este es un valor placeholder para studentId, cambia según tu lógica
+                Integer.parseInt(semesterComboBox.getValue()),  // Esto es el grade
+                groupsComboBox.getSelectionModel().getSelectedIndex() + 1  // Esto es el groupId
+        );
+
+        // Llamar al método addStudent de StudentDAO
+        StudentDAO studentDAO = new StudentDAO();
+
+        try {
+            // Intentar guardar el estudiante
+            studentDAO.addStudent(student);
+
+            // Si no hubo excepciones, mostrar mensaje de éxito
+            showAlert("Éxito", "Alumno guardado", "El alumno ha sido guardado exitosamente.");
+        } catch (Exception e) {
+            // Capturar cualquier excepción que ocurra al guardar el estudiante
+            showAlert("Error", "Guardar alumno", "Ocurrió un error al guardar el alumno: " + e.getMessage());
+            e.printStackTrace();  // Esto es útil para depurar el error
+        }
+        // Cerrar el formulario
         stage.close();
     }
-
     @FXML
     private void handleCancel() {
         stage.close();

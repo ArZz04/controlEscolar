@@ -22,7 +22,6 @@ public class UserDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                int userId = resultSet.getInt("user_id");
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
                 String middleName = resultSet.getString("middle_name");
@@ -31,7 +30,7 @@ public class UserDAO {
                 String phone = resultSet.getString("phone");
 
                 // Crear un nuevo objeto User y agregarlo a la lista
-                User user = new User(userId, firstName, lastName, middleName, birthDate, email, phone);
+                User user = new User( firstName, lastName, middleName, birthDate, email, phone);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -39,6 +38,32 @@ public class UserDAO {
         }
 
         return users;
+    }
+
+    public int addUser(User user) {
+        String query = "INSERT INTO User (FIRST_NAME, LAST_NAME, GENDER, EMAIL, PHONE) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setString(3, user.getGender());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, user.getPhone());
+
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1);  // Retorna el userId generado
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;  // Retorna -1 si no se pudo generar el userId
     }
 
 

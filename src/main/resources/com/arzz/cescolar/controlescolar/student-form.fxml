@@ -74,25 +74,13 @@
 
                     <HBox spacing="15">
                         <VBox spacing="5" HBox.hgrow="ALWAYS">
-                            <Label text="Matrícula" />
-                            <TextField fx:id="matriculaField" promptText="Ej. A12345" />
-                        </VBox>
-
-                        <VBox spacing="5" HBox.hgrow="ALWAYS">
                             <Label text="Semestre" />
                             <ComboBox fx:id="semesterComboBox" promptText="Seleccionar" prefWidth="150" />
-                        </VBox>
-                    </HBox>
-
-                    <HBox spacing="15">
-                        <VBox spacing="5" HBox.hgrow="ALWAYS">
-                            <Label text="Carrera/Programa" />
-                            <ComboBox fx:id="programComboBox" promptText="Seleccionar" prefWidth="150" />
                         </VBox>
 
                         <VBox spacing="5" HBox.hgrow="ALWAYS">
                             <Label text="Grupo" />
-                            <TextField fx:id="groupField" promptText="Ej. A" />
+                            <ComboBox fx:id="groupsComboBox" promptText="Seleccionar" prefWidth="150" />
                         </VBox>
                     </HBox>
 
@@ -110,32 +98,6 @@
                             <TextField fx:id="phoneField" promptText="(123) 456-7890" />
                         </VBox>
                     </HBox>
-
-                    <!-- Address Section -->
-                    <Label text="Dirección" styleClass="section-subtitle" />
-
-                    <VBox spacing="15">
-
-                        <HBox spacing="15">
-
-                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                <Label text="Código Postal" />
-                                <TextField fx:id="zipCodeField" promptText="Código Postal" />
-                            </VBox>
-                        </HBox>
-
-                        <HBox spacing="15">
-                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                <Label text="Ciudad" />
-                                <TextField fx:id="cityField" promptText="Ciudad" />
-                            </VBox>
-
-                            <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                <Label text="Estado" />
-                                <ComboBox fx:id="stateComboBox" promptText="Seleccionar" prefWidth="150" />
-                            </VBox>
-                        </HBox>
-                    </VBox>
 
                 </VBox>
             </content>

@@ -10,6 +10,11 @@ public class Subject {
         this.name = name;
     }
 
+    // Constructor para nuevas materias (sin ID)
+    public Subject(String name) {
+        this.name = name;
+    }
+
     // Getters and Setters
     public int getSubjectId() {
         return subjectId;

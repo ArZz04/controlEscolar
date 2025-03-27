@@ -3,10 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.net.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.arzz.cescolar.controlescolar.AppController">
    <stylesheets>
       <URL value="@styles/dashboard.css" />
@@ -105,72 +106,22 @@
                         </VBox>
                      </HBox>
 
-                     <!-- Recent Activity Section -->
-                     <VBox styleClass="activity-section">
-                        <Label text="Actividad Reciente" styleClass="section-title" />
-
-                        <VBox spacing="10.0" styleClass="activity-list">
-                           <!-- Activity Item 1 -->
-                           <HBox styleClass="activity-item" alignment="CENTER_LEFT" spacing="10.0">
-                              <StackPane styleClass="activity-icon-container, alumnos-color">
-                                 <ImageView fitHeight="20.0" fitWidth="20.0">
-                                    <image>
-                                       <Image url="@images/icons/users.png" />
-                                    </image>
-                                 </ImageView>
-                              </StackPane>
-                              <VBox>
-                                 <Label text="Nuevo alumno registrado: María González" styleClass="activity-text" />
-                                 <Label text="Hace 2 horas" styleClass="activity-time" />
-                              </VBox>
-                           </HBox>
-
-                           <!-- Activity Item 2 -->
-                           <HBox styleClass="activity-item" alignment="CENTER_LEFT" spacing="10.0">
-                              <StackPane styleClass="activity-icon-container, materias-color">
-                                 <ImageView fitHeight="20.0" fitWidth="20.0">
-                                    <image>
-                                       <Image url="@images/icons/book-open.png" />
-                                    </image>
-                                 </ImageView>
-                              </StackPane>
-                              <VBox>
-                                 <Label text="Calificaciones actualizadas para Matemáticas 101" styleClass="activity-text" />
-                                 <Label text="Hace 5 horas" styleClass="activity-time" />
-                              </VBox>
-                           </HBox>
-
-                           <!-- Activity Item 3 -->
-                           <HBox styleClass="activity-item" alignment="CENTER_LEFT" spacing="10.0">
-                              <StackPane styleClass="activity-icon-container, maestros-color">
-                                 <ImageView fitHeight="20.0" fitWidth="20.0">
-                                    <image>
-                                       <Image url="@images/icons/graduation-cap.png" />
-                                    </image>
-                                 </ImageView>
-                              </StackPane>
-                              <VBox>
-                                 <Label text="Profesor Luis Ramírez modificó horario" styleClass="activity-text" />
-                                 <Label text="Ayer" styleClass="activity-time" />
-                              </VBox>
-                           </HBox>
-
-                           <!-- Activity Item 4 -->
-                           <HBox styleClass="activity-item" alignment="CENTER_LEFT" spacing="10.0">
-                              <StackPane styleClass="activity-icon-container, materias-color">
-                                 <ImageView fitHeight="20.0" fitWidth="20.0">
-                                    <image>
-                                       <Image url="@images/icons/book-open.png" />
-                                    </image>
-                                 </ImageView>
-                              </StackPane>
-                              <VBox>
-                                 <Label text="Nueva materia agregada: Física Avanzada" styleClass="activity-text" />
-                                 <Label text="Hace 2 días" styleClass="activity-time" />
-                              </VBox>
-                           </HBox>
+                     <!-- Mostrar materias asignadas al usuario seleccionado -->
+                     <VBox styleClass="assigned-materias-section">
+                        <Label text="Materias Asignadas" styleClass="section-title" />
+                        <VBox fx:id="materiasList" styleClass="materias-list">
+                           <!-- Aquí se mostrarán las materias asignadas al usuario seleccionado -->
                         </VBox>
                      </VBox>
+
+                     <!-- ComboBox y Botón para seleccionar usuario y asignar materias -->
+                     <HBox styleClass="user-action-section" spacing="20.0" alignment="CENTER_LEFT">
+                        <!-- ComboBox para seleccionar alumno -->
+                        <ComboBox fx:id="userComboBox" promptText="Selecciona un Alumno" styleClass="combo-box" />
+
+                        <!-- Botón para asignar materias -->
+                        <Button text="Asignar Materias" styleClass="assign-button" onAction="#handleAssignMaterias" />
+                     </HBox>
                   </VBox>
                </content>
             </ScrollPane>

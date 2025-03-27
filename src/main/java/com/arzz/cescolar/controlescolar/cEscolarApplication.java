@@ -14,7 +14,7 @@ public class cEscolarApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(cEscolarApplication.class.getResource("cEscolar-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 720);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 500);
 
         // Establecer el ícono de la ventana
         String imagePath = Objects.requireNonNull(
